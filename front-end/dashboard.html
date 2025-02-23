@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* Global Styles */
+:root {
+    --primary-color: #2196F3;
+    --success-color: #4CAF50;
+    --warning-color: #FFA726;
+    --danger-color: #EF5350;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Form Styles */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.form-container {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+
+.radio-group label {
+    margin-left: 0.5rem;
+    margin-bottom: 0;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #1976D2;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.risk-score-card,
+.metrics-card,
+.recommendations-card,
+.lifestyle-card {
+    background-color: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Risk Meter */
+.risk-meter {
+    background-color: #eee;
+    height: 20px;
+    border-radius: 10px;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.risk-indicator {
+    height: 100%;
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+.risk-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.risk-label {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.metric {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.metric-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.metric-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.metric-status {
+    display: block;
+    font-size: 0.8rem;
+}
+
+/* Recommendations */
+.recommendation-item {
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+/* Lifestyle Chart */
+.lifestyle-chart {
+    margin-top: 1rem;
+}
+
+.chart-bar-container {
+    margin-bottom: 1rem;
+}
+
+.chart-label {
+    margin-bottom: 0.5rem;
+}
+
+.chart-bar {
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+
+/* Action Plan */
+.action-plan {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.action-steps {
+    margin-top: 1rem;
+}
+
+/* Footer */
+.dashboard-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.back-btn,
+.print-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.back-btn {
+    background-color: #eee;
+    color: var(--text-color);
+}
+
+.print-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.back-btn:hover {
+    background-color: #ddd;
+}
+
+.print-btn:hover {
+    background-color: #1976D2;
+}
+
+@media print {
+    .dashboard-footer {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .container,
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Your Health Analysis</h1>
+            <p class="date">Report generated on <span id="currentDate"></span></p>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="risk-score-card">
+                <h2>Cardiovascular Risk Score</h2>
+                <div class="risk-meter">
+                    <div class="risk-indicator" id="riskIndicator"></div>
+                    <span class="risk-percentage" id="riskPercentage">0%</span>
+                </div>
+                <p class="risk-label" id="riskLabel">Loading...</p>
+            </div>
+
+            <div class="metrics-card">
+                <h2>Key Metrics</h2>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-label">Blood Pressure</span>
+                        <span class="metric-value" id="bpValue"></span>
+                        <span class="metric-status" id="bpStatus"></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Cholesterol</span>
+                        <span class="metric-value" id="cholesterolValue"></span>
+                        <span class="metric-status" id="cholesterolStatus"></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Glucose</span>
+                        <span class="metric-value" id="glucoseValue"></span>
+                        <span class="metric-status" id="glucoseStatus"></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">BMI</span>
+                        <span class="metric-value" id="bmiValue"></span>
+                        <span class="metric-status" id="bmiStatus"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations-card">
+                <h2>Recommendations</h2>
+                <div class="recommendations-list" id="recommendationsList">
+                </div>
+            </div>
+
+            <div class="lifestyle-card">
+                <h2>Lifestyle Analysis</h2>
+                <div class="lifestyle-chart">
+                    <div class="chart-bar-container">
+                        <div class="chart-label">Physical Activity</div>
+                        <div class="chart-bar" id="activityBar"></div>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-label">Diet Quality</div>
+                        <div class="chart-bar" id="dietBar"></div>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-label">Stress Level</div>
+                        <div class="chart-bar" id="stressBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-plan">
+            <h2>Your Action Plan</h2>
+            <div class="action-steps" id="actionSteps">
+            </div>
+        </div>
+
+        <footer class="dashboard-footer">
+            <button onclick="window.location.href='index.html'" class="back-btn">Back to Assessment</button>
+            <button onclick="window.print()" class="print-btn">Print Report</button>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const healthData = JSON.parse(localStorage.getItem('healthData'));
+            if (!healthData) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Set current date
+            const date = new Date();
+            document.getElementById('currentDate').textContent = date.toLocaleDateString();
+
+            // Calculate risk score (simplified example)
+            const systolicRisk = (healthData.systolic > 140) ? 30 : (healthData.systolic > 120 ? 15 : 0);
+            const cholesterolRisk = (healthData.cholesterol > 240) ? 30 : (healthData.cholesterol > 200 ? 15 : 0);
+            const glucoseRisk = (healthData.glucose > 126) ? 25 : (healthData.glucose > 100 ? 12 : 0);
+            const ageRisk = (healthData.age > 60) ? 15 : (healthData.age > 40 ? 8 : 0);
+
+            const totalRisk = Math.min(100, systolicRisk + cholesterolRisk + glucoseRisk + ageRisk);
+
+            // Update risk indicator
+            const riskIndicator = document.getElementById('riskIndicator');
+            const riskPercentage = document.getElementById('riskPercentage');
+            const riskLabel = document.getElementById('riskLabel');
+
+            riskIndicator.style.width = `${totalRisk}%`;
+            riskPercentage.textContent = `${totalRisk}%`;
+
+            if (totalRisk < 30) {
+                riskIndicator.style.backgroundColor = '#4CAF50';
+                riskLabel.textContent = 'Low Risk';
+            } else if (totalRisk < 60) {
+                riskIndicator.style.backgroundColor = '#FFA726';
+                riskLabel.textContent = 'Moderate Risk';
+            } else {
+                riskIndicator.style.backgroundColor = '#EF5350';
+                riskLabel.textContent = 'High Risk';
+            }
+
+            // Update metrics
+            document.getElementById('bpValue').textContent = `${healthData.systolic}/${healthData.diastolic}`;
+            document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol} mg/dL`;
+            document.getElementById('glucoseValue').textContent = `${healthData.glucose} mg/dL`;
+
+            // Calculate and display BMI
+            const heightInMeters = healthData.height / 100;
+            const bmi = (healthData.weight / (heightInMeters * heightInMeters)).toFixed(1);
+            document.getElementById('bmiValue').textContent = bmi;
+
+            // Generate recommendations based on risk factors
+            const recommendationsList = document.getElementById('recommendationsList');
+            const recommendations = [];
+
+            if (healthData.systolic > 140) {
+                recommendations.push('Monitor blood pressure regularly and consult with your healthcare provider');
+            }
+            if (healthData.cholesterol > 200) {
+                recommendations.push('Consider dietary changes to reduce cholesterol levels');
+            }
+            if (healthData.glucose > 100) {
+                recommendations.push('Monitor blood glucose levels and maintain a balanced diet');
+            }
+            if (healthData.activity === 'inactive') {
+                recommendations.push('Increase physical activity to at least 150 minutes per week');
+            }
+
+            recommendations.forEach(rec => {
+                const div = document.createElement('div');
+                div.className = 'recommendation-item';
+                div.textContent = rec;
+                recommendationsList.appendChild(div);
+            });
+
+            // Update lifestyle bars
+            document.getElementById('activityBar').style.width = 
+                healthData.activity === 'active' ? '80%' : '30%';
+            document.getElementById('dietBar').style.width = 
+                healthData.cholesterol < 200 ? '75%' : '40%';
+            document.getElementById('stressBar').style.width = 
+                healthData.systolic < 120 ? '70%' : '50%';
+        });
+    </script>
+</body>
+</html>

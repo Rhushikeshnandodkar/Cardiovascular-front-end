@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Global Styles */
+:root {
+    --primary-color: #2196F3;
+    --success-color: #4CAF50;
+    --warning-color: #FFA726;
+    --danger-color: #EF5350;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Form Styles */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.form-container {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+
+.radio-group label {
+    margin-left: 0.5rem;
+    margin-bottom: 0;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #1976D2;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.risk-score-card,
+.metrics-card,
+.recommendations-card,
+.lifestyle-card {
+    background-color: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Risk Meter */
+.risk-meter {
+    background-color: #eee;
+    height: 20px;
+    border-radius: 10px;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.risk-indicator {
+    height: 100%;
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+.risk-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.risk-label {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.metric {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.metric-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.metric-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.metric-status {
+    display: block;
+    font-size: 0.8rem;
+}
+
+/* Recommendations */
+.recommendation-item {
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+/* Lifestyle Chart */
+.lifestyle-chart {
+    margin-top: 1rem;
+}
+
+.chart-bar-container {
+    margin-bottom: 1rem;
+}
+
+.chart-label {
+    margin-bottom: 0.5rem;
+}
+
+.chart-bar {
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+
+/* Action Plan */
+.action-plan {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.action-steps {
+    margin-top: 1rem;
+}
+
+/* Footer */
+.dashboard-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.back-btn,
+.print-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.back-btn {
+    background-color: #eee;
+    color: var(--text-color);
+}
+
+.print-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.back-btn:hover {
+    background-color: #ddd;
+}
+
+.print-btn:hover {
+    background-color: #1976D2;
+}
+
+@media print {
+    .dashboard-footer {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .container,
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Cardiovascular Health Assessment</h1>
+            <form id="healthForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" required min="1" max="120">
+                </div>
+                
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <input type="radio" id="male" name="gender" value="male" required>
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" required min="100" max="250">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" required min="30" max="300">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="systolic">Systolic BP (mmHg)</label>
+                        <input type="number" id="systolic" required min="70" max="250">
+                    </div>
+                    <div class="form-group">
+                        <label for="diastolic">Diastolic BP (mmHg)</label>
+                        <input type="number" id="diastolic" required min="40" max="150">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cholesterol">Cholesterol (mg/dL)</label>
+                        <input type="number" id="cholesterol" required min="100" max="500">
+                    </div>
+                    <div class="form-group">
+                        <label for="glucose">Glucose (mg/dL)</label>
+                        <input type="number" id="glucose" required min="50" max="400">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Physical Activity Level</label>
+                    <div class="radio-group">
+                        <input type="radio" id="active" name="activity" value="active" required>
+                        <label for="active">Active</label>
+                        <input type="radio" id="inactive" name="activity" value="inactive">
+                        <label for="inactive">Inactive</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Analyze Health Status</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            // Simple risk calculation based on factors
+            const age = document.getElementById('age').value;
+            const systolic = document.getElementById('systolic').value;
+            const diastolic = document.getElementById('diastolic').value;
+            const cholesterol = document.getElementById('cholesterol').value;
+            const glucose = document.getElementById('glucose').value;
+            
+            // Store values in localStorage for dashboard
+            localStorage.setItem('healthData', JSON.stringify({
+                age,
+                systolic,
+                diastolic,
+                cholesterol,
+                glucose,
+                activity: document.querySelector('input[name="activity"]:checked').value,
+                gender: document.querySelector('input[name="gender"]:checked').value,
+                height: document.getElementById('height').value,
+                weight: document.getElementById('weight').value
+            }));
+
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
