@@ -524,7 +524,64 @@ input[type="number"]:focus {
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        const healthData = {
+            name: "{{ name }}",
+            age: {{ age }},
+            systolic: {{ systolic }},
+            diastolic: {{ diastolic }},
+            cholesterol: {{ cholesterol }},
+            glucose: {{ glucose }},
+            height: {{ height }},
+            weight: {{ weight }},
+            probability: parseFloat("{{ probability }}")  // Get the probability passed from views.py and convert to number
+        };
+        
+        document.getElementById('patientName').textContent = healthData.name;
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        // Use probability directly instead of calculated risk
+        const probabilityValue = Math.min(100, healthData.probability);
+        
+        const riskIndicator = document.getElementById('riskIndicator');
+        const riskPercentage = document.getElementById('riskPercentage');
+        const riskLabel = document.getElementById('riskLabel');
+        
+        riskIndicator.style.width = `${probabilityValue}%`;
+        riskPercentage.textContent = `${probabilityValue.toFixed(2)}%`;
+        riskLabel.textContent = probabilityValue < 30 ? 'Low Risk' : probabilityValue < 60 ? 'Moderate Risk' : 'High Risk';
+        riskIndicator.style.backgroundColor = probabilityValue < 30 ? 'var(--success-color)' : probabilityValue < 60 ? 'var(--warning-color)' : 'var(--danger-color)';
+        
+        // Update other health info
+        
+        document.getElementById('bpValue').textContent = `${healthData.systolic}/${healthData.diastolic}`;
+        document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol} mg/dL`;
+        document.getElementById('glucoseValue').textContent = `${healthData.glucose} mg/dL`;
+        
+        const heightInMeters = healthData.height / 100;
+        const bmi = (healthData.weight / (heightInMeters * heightInMeters)).toFixed(1);
+        document.getElementById('bmiValue').textContent = bmi;
+        
+        const activityScore = 80;
+        const dietScore = healthData.cholesterol < 200 ? 75 : 40;
+        const healthScore = Math.round((100 - probabilityValue) * 0.8);
+        
+        document.getElementById('activityBar').style.width = `${activityScore}%`;
+        document.getElementById('dietBar').style.width = `${dietScore}%`;
+        document.getElementById('healthBar').style.width = `${healthScore}%`;
+        
+        document.getElementById('activityScore').textContent = `${activityScore}%`;
+        document.getElementById('dietScore').textContent = `${dietScore}%`;
+        document.getElementById('healthScore').textContent = `${healthScore}%`;
+        
+        // Show probability output
+        document.getElementById('mlProbability').textContent = `Heart Disease Probability: ${probabilityValue.toFixed(2)}%`;
+
+        
+        {% comment %} document.addEventListener('DOMContentLoaded', function() {
             const healthData = JSON.parse(localStorage.getItem('healthData'));
             if (!healthData) {
                 window.location.href = 'http://127.0.0.1:8000';
@@ -643,7 +700,7 @@ input[type="number"]:focus {
             document.getElementById('activityScore').textContent = `${activityScore}%`;
             document.getElementById('dietScore').textContent = `${dietScore}%`;
             document.getElementById('healthScore').textContent = `${healthScore}%`;
-        });
+        }); {% endcomment %}
     </script>
 </body>
 </html>
