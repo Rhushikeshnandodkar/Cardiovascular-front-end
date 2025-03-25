@@ -356,19 +356,20 @@ input[type="number"]:focus {
 /* Print Styles */
 @media print {
     body {
-        background-color: white;
-        color: black;
+        background-color: black;
+        color: white;
     }
 
     .navbar,
     .dashboard-footer {
         display: none;
+        box-shadow: none;
     }
 
     .dashboard-container {
         max-width: 100%;
         margin: 0;
-        padding: 2rem;
+        padding: 1rem;
     }
 
     .risk-score-card,
@@ -377,9 +378,59 @@ input[type="number"]:focus {
     .lifestyle-card,
     .action-plan {
         break-inside: avoid;
-        background-color: white;
+        background-color: black;
         border: 1px solid #ddd;
         margin-bottom: 2rem;
+    }
+
+    /* Unified metrics grid styling */
+    .metrics-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+    .risk-score-card{
+        padding: 1rem;
+        box-shadow: none;
+    }
+    .dashboard-header{
+        padding: 1rem;
+        box-shadow: none;
+        border: 1px solid rgb(209, 209, 209);
+    }
+    .metric {
+        padding: 0.3rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        box-shadow: none;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .metrics-card{
+        box-shadow: none;
+    }
+
+    .metric-label {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .metric-value {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+        color: var(--primary-color);
+    }
+
+    .metric-status {
+        display: block;
+        font-size: 0.9rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        display: inline-block;
     }
 
     .recommendation-item {
@@ -387,13 +438,11 @@ input[type="number"]:focus {
         color: black;
     }
 
-    .metric {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-    }
-
     .chart-bar {
-        border: 1px solid #ddd;
+        background-color: #007BFF;
+        color: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 }
 
@@ -412,13 +461,28 @@ input[type="number"]:focus {
     }
 
     .metrics-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 2fr;
     }
 
     .navbar-content {
         flex-direction: column;
         gap: 1rem;
     }
+}
+.list ul{
+    list-style: none;
+}
+.list ul li{
+    padding: 1% 0;
+}
+.list ul li b{
+    font-size: 1.2rem;
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(366px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 </style>
 <body>
@@ -467,7 +531,7 @@ input[type="number"]:focus {
                     <div class="metric">
                         <span class="metric-label">Glucose</span>
                         <span class="metric-value" id="glucoseValue"></span>
-                        <span class="metric-status" id="glucoseStatus"></span>
+
                     </div>
                     <div class="metric">
                         <span class="metric-label">BMI</span>
@@ -480,6 +544,94 @@ input[type="number"]:focus {
             <div class="recommendations-card">
                 <h2>Personalized Recommendations</h2>
                 <div class="recommendations-list" id="recommendationsList">
+                    {% if probability < 40 %}
+                    <ul>
+                        <li>
+                            <b>You are fit and fine</b> <br>
+                            
+                        </li>
+                    </ul>
+                    {% elif probability > 40 and probability < 60 %}
+                    <div class="list">
+                    <ul>
+                        <li>
+                            <b>   
+                <div class="list">
+                <ul>
+                    <li>
+                        <b>which must include fruits -</b> <br>
+                        🍊 Oranges: Rich in vitamin C, potassium, and fiber for heart health
+                        🍌 Bananas: Great source of potassium to regulate heart function, 
+                    </li>
+                    <li>
+
+                        <b>vegetables -</b>  <br>
+                        🥦 Broccoli: Rich in fiber, vitamins, and antioxidants
+                        🥕 Carrots: Full of fiber and beta-carotene to support heart health
+                        , whole grains, lean proteins, and healthy fats (like those from nuts, seeds, and olive oil).
+                    </li>
+                    <li>
+                        <b>Regular Physical Activity -</b>  <br>
+                        Aim for at least 150 minutes of moderate-intensity exercise per week, such as brisk walking 🚶‍♂️, swimming 🏊‍♂️, or cycling 🚴‍♂️
+                    </li>
+                    <li>
+                        <b>Manage Stress Effectively -</b> <br>
+                        Practice stress-reducing techniques like meditation 🧘‍♂️, deep breathing, yoga 🧘, or mindfulness to help maintain emotional well-being and reduce heart strain.
+                    </li>
+                </ul>
+            </div>
+            {% elif   probability > 60 and probability < 80 %}
+            <div class="list">
+                <ul>
+                    <li>
+                        <b>🚨 Emergency Awareness -</b> <br>
+                        Know the Signs of a Heart Attack:
+                        Chest pain or discomfort
+                        Shortness of breath
+                        
+
+                    </li>
+                    <li>
+
+                        <b>Weight Management -</b>  <br>
+                        Practice stress-reducing techniques like meditation 🧘‍♂️, deep breathing, yoga 🧘, or mindfulness to help maintain emotional well-being and reduce heart strain
+                    </li>
+                    <li>
+                        <b>Foods to Avoid  -</b>  <br>
+                        o	Processed meats 🍗 (bacon, sausages) 🚫
+                        o	Trans fats and hydrogenated oils 🛢️🚫
+                        o	Excess salt and sugar 🚫
+                        
+                    </li>
+                </ul>
+            </div>
+            {% elif  probability > 80 %}
+            <div class="list">
+                <ul>
+                    <li>
+                        <b>⚠️ Emergency Signs to Watch -</b> <br>
+                        Chest pain, pressure, or tightness
+                        Shortness of breath
+                        Sudden weakness or numbness
+                        Fainting or dizziness
+                        
+                    </li>
+                    <li>
+
+                        <b>🚫Foods to Avoid   -</b>  <br>
+                        Processed meats 🍗 (bacon, sausages) 
+                       Trans fats and hydrogenated oils 🛢️ 
+                    	Excess salt and sugar 🚫
+                        
+
+                    </li>
+                    <li>
+                        <b>❤️Regular Monitoring: -</b>  <br>
+                        ❤️Regular Monitoring:
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
                 </div>
             </div>
 
@@ -511,16 +663,101 @@ input[type="number"]:focus {
             </div>
         </div>
 
+        {% comment %} {{probability|floatformat:2}} {% endcomment %}
         <div class="action-plan">
             <h2>Your Action Plan</h2>
             <div class="action-steps" id="actionSteps">
+                {% if probability > 40 and probability < 60 %}
+                <div class="list">
+                <ul>
+                    <li>
+                        <b>which must include fruits -</b> <br>
+                        🍊 Oranges: Rich in vitamin C, potassium, and fiber for heart health
+                        🍌 Bananas: Great source of potassium to regulate heart function, 
+                    </li>
+                    <li>
+
+                        <b>vegetables -</b>  <br>
+                        🥦 Broccoli: Rich in fiber, vitamins, and antioxidants
+                        🥕 Carrots: Full of fiber and beta-carotene to support heart health
+                        , whole grains, lean proteins, and healthy fats (like those from nuts, seeds, and olive oil).
+                    </li>
+                    <li>
+                        <b>Regular Physical Activity -</b>  <br>
+                        Aim for at least 150 minutes of moderate-intensity exercise per week, such as brisk walking 🚶‍♂️, swimming 🏊‍♂️, or cycling 🚴‍♂️
+                    </li>
+                    <li>
+                        <b>Manage Stress Effectively -</b> <br>
+                        Practice stress-reducing techniques like meditation 🧘‍♂️, deep breathing, yoga 🧘, or mindfulness to help maintain emotional well-being and reduce heart strain.
+                    </li>
+                </ul>
+            </div>
+            {% elif   probability > 60 and probability < 80 %}
+            <div class="list">
+                <ul>
+                    <li>
+                        <b>🥗 Dietary Recommendations -</b> <br>
+                                                    Increase Fruit Intake
+                            🍓Berries (Blueberries, Strawberries): Rich in antioxidants.
+                            🥑Avocados: Healthy fats that support heart health.
+                            🍊 Oranges: Rich in vitamin C, potassium, and fiber for heart health,
+                            Vegetables to Prioritize : 
+                            🥬Leafy Greens (Spinach): High in nitrates, improve blood pressure.
+                            🥦 Broccoli: Rich in fiber, vitamins, and antioxidants
+                            🍠Beets: Boost nitric oxide, improving vascular health
+
+                    </li>
+                    <li>
+
+                        <b>Manage Stress Effectively  -</b>  <br>
+                        Practice stress-reducing techniques like meditation 🧘‍♂️, deep breathing, yoga 🧘, or mindfulness to help maintain emotional well-being and reduce heart strain
+                    </li>
+                    <li>
+                        <b>Avoid Smoking or being under polluted area  -</b>  <br>
+                        🚭 Quit smoking (if applicable) and 🌫️ avoid exposure to second-hand smoke i.e passive smoking.
+                    </li>
+                </ul>
+            </div>
+            {% elif   probability > 80 %}
+            <div class="list">
+                <ul>
+                    <li>
+                        <b>🥗 Dietary Recommendations -</b> <br>
+                        1. Increase Fruit Intake
+                        🍌 Bananas: Great source of potassium to regulate heart function.
+                        🥑Avocados: Healthy fats that support heart health.
+                        2. Vegetables to Prioritize : 
+                        🥬Leafy Greens (Spinach): High in nitrates, improve blood pressure.
+                        🍠Beets: Boost nitric oxide, improving vascular health
+                        3. Increase Heart-Healthy Grains :
+                        🌾 Oats, Quinoa, 🍘 Brown Rice, Whole Wheat 🍞 for fiber and lower cholesterol.
+                        
+
+                    </li>
+                    <li>
+
+                        <b>Regular Physical Activity   -</b>  <br>
+                                            Dancing 💃: Enjoyable cardio workout. 
+                    Brisk Walking 🚶‍♂️: 30 min/day, 5 days/week.
+                    Swimming 🏊‍♂️ or Cycling : Low-impact, heart-friendly.
+
+                    </li>
+                    <li>
+                        <b>Manage Stress Effectively  -</b>  <br>
+                        Practice stress-reducing techniques like meditation 🧘‍♂️, deep breathing, yoga 🧘, or mindfulness to help maintain emotional well-being and reduce heart strain.
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+
             </div>
         </div>
 
         <footer class="dashboard-footer">
-            <button onclick="window.location.href='index.html'" class="back-btn">New Assessment</button>
+            <button onclick="window.location.href='http://127.0.0.1:8000/'" class="back-btn">New Assessment</button>
             <button onclick="window.print()" class="print-btn">Download Report</button>
         </footer>
+        
     </div>
 
     <script>
@@ -529,7 +766,7 @@ input[type="number"]:focus {
             age: {{ age }},
             systolic: {{ systolic }},
             diastolic: {{ diastolic }},
-            cholesterol: {{ cholesterol }},
+            cholesterol: {{ cholesterol  }},
             glucose: {{ glucose }},
             height: {{ height }},
             weight: {{ weight }},
@@ -556,10 +793,13 @@ input[type="number"]:focus {
         riskIndicator.style.backgroundColor = probabilityValue < 30 ? 'var(--success-color)' : probabilityValue < 60 ? 'var(--warning-color)' : 'var(--danger-color)';
         
         // Update other health info
-        
+        glucose = false
+        if(healthData.glocose === "1"){
+            glucose = true
+        }
         document.getElementById('bpValue').textContent = `${healthData.systolic}/${healthData.diastolic}`;
-        document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol} mg/dL`;
-        document.getElementById('glucoseValue').textContent = `${healthData.glucose} mg/dL`;
+        document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol * 100} mg/dL`;
+        document.getElementById('glucoseValue').textContent = `${glucose}` ;
         
         const heightInMeters = healthData.height / 100;
         const bmi = (healthData.weight / (heightInMeters * heightInMeters)).toFixed(1);
@@ -576,131 +816,132 @@ input[type="number"]:focus {
         document.getElementById('activityScore').textContent = `${activityScore}%`;
         document.getElementById('dietScore').textContent = `${dietScore}%`;
         document.getElementById('healthScore').textContent = `${healthScore}%`;
-        
+
+
         // Show probability output
-        document.getElementById('mlProbability').textContent = `Heart Disease Probability: ${probabilityValue.toFixed(2)}%`;
+        document.getElementById('mlProbability').textContent = `Heart Disease Probability: ${probabilityValue.toFixed(2)}%`;hon 
 
         
-        {% comment %} document.addEventListener('DOMContentLoaded', function() {
-            const healthData = JSON.parse(localStorage.getItem('healthData'));
-            if (!healthData) {
-                window.location.href = 'http://127.0.0.1:8000';
-                return;
-            }
+        // {% comment %} document.addEventListener('DOMContentLoaded', function() {
+        //     const healthData = JSON.parse(localStorage.getItem('healthData'));
+        //     if (!healthData) {
+        //         window.location.href = 'http://127.0.0.1:8000';
+        //         return;
+        //     }
 
-            // Set patient name and date
-            document.getElementById('patientName').textContent = healthData.name;
-            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+        //     // Set patient name and date
+        //     document.getElementById('patientName').textContent = healthData.name;
+        //     document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+        //         year: 'numeric',
+        //         month: 'long',
+        //         day: 'numeric'
+        //     });
 
-            // Calculate risk score
-            const systolicRisk = (healthData.systolic > 140) ? 30 : (healthData.systolic > 120 ? 15 : 0);
-            const cholesterolRisk = (healthData.cholesterol > 240) ? 30 : (healthData.cholesterol > 200 ? 15 : 0);
-            const glucoseRisk = (healthData.glucose > 126) ? 25 : (healthData.glucose > 100 ? 12 : 0);
-            const ageRisk = (healthData.age > 60) ? 15 : (healthData.age > 40 ? 8 : 0);
+        //     // Calculate risk score
+        //     const systolicRisk = (healthData.systolic > 140) ? 30 : (healthData.systolic > 120 ? 15 : 0);
+        //     const cholesterolRisk = (healthData.cholesterol > 240) ? 30 : (healthData.cholesterol > 200 ? 15 : 0);
+        //     const glucoseRisk = (healthData.glucose > 126) ? 25 : (healthData.glucose > 100 ? 12 : 0);
+        //     const ageRisk = (healthData.age > 60) ? 15 : (healthData.age > 40 ? 8 : 0);
 
-            const totalRisk = Math.min(100, systolicRisk + cholesterolRisk + glucoseRisk + ageRisk);
+        //     const totalRisk = Math.min(100, systolicRisk + cholesterolRisk + glucoseRisk + ageRisk);
 
-            // Update risk indicator
-            const riskIndicator = document.getElementById('riskIndicator');
-            const riskPercentage = document.getElementById('riskPercentage');
-            const riskLabel = document.getElementById('riskLabel');
+        //     // Update risk indicator
+        //     const riskIndicator = document.getElementById('riskIndicator');
+        //     const riskPercentage = document.getElementById('riskPercentage');
+        //     const riskLabel = document.getElementById('riskLabel');
 
-            riskIndicator.style.width = `${totalRisk}%`;
-            riskPercentage.textContent = `${totalRisk}%`;
+        //     riskIndicator.style.width = `${totalRisk}%`;
+        //     riskPercentage.textContent = `${totalRisk}%`;
 
-            if (totalRisk < 30) {
-                riskIndicator.style.backgroundColor = 'var(--success-color)';
-                riskLabel.textContent = 'Low Risk';
-            } else if (totalRisk < 60) {
-                riskIndicator.style.backgroundColor = 'var(--warning-color)';
-                riskLabel.textContent = 'Moderate Risk';
-            } else {
-                riskIndicator.style.backgroundColor = 'var(--danger-color)';
-                riskLabel.textContent = 'High Risk';
-            }
+        //     if (totalRisk < 30) {
+        //         riskIndicator.style.backgroundColor = 'var(--success-color)';
+        //         riskLabel.textContent = 'Low Risk';
+        //     } else if (totalRisk < 60) {
+        //         riskIndicator.style.backgroundColor = 'var(--warning-color)';
+        //         riskLabel.textContent = 'Moderate Risk';
+        //     } else {
+        //         riskIndicator.style.backgroundColor = 'var(--danger-color)';
+        //         riskLabel.textContent = 'High Risk';
+        //     }
 
-            // Update metrics with status indicators
-            const bpValue = document.getElementById('bpValue');
-            const bpStatus = document.getElementById('bpStatus');
-            bpValue.textContent = `${healthData.systolic}/${healthData.diastolic}`;
-            if (healthData.systolic > 140 || healthData.diastolic > 90) {
-                bpStatus.textContent = 'High';
-                bpStatus.style.backgroundColor = 'var(--danger-color)';
-            } else if (healthData.systolic > 120 || healthData.diastolic > 80) {
-                bpStatus.textContent = 'Elevated';
-                bpStatus.style.backgroundColor = 'var(--warning-color)';
-            } else {
-                bpStatus.textContent = 'Normal';
-                bpStatus.style.backgroundColor = 'var(--success-color)';
-            }
+        //     // Update metrics with status indicators
+        //     const bpValue = document.getElementById('bpValue');
+        //     const bpStatus = document.getElementById('bpStatus');
+        //     bpValue.textContent = `${healthData.systolic}/${healthData.diastolic}`;
+        //     if (healthData.systolic > 140 || healthData.diastolic > 90) {
+        //         bpStatus.textContent = 'High';
+        //         bpStatus.style.backgroundColor = 'var(--danger-color)';
+        //     } else if (healthData.systolic > 120 || healthData.diastolic > 80) {
+        //         bpStatus.textContent = 'Elevated';
+        //         bpStatus.style.backgroundColor = 'var(--warning-color)';
+        //     } else {
+        //         bpStatus.textContent = 'Normal';
+        //         bpStatus.style.backgroundColor = 'var(--success-color)';
+        //     }
 
-            // Update other metrics
-            document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol} mg/dL`;
-            document.getElementById('glucoseValue').textContent = `${healthData.glucose} mg/dL`;
+        //     // Update other metrics
+        //     document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol * 100} mg/dL`;
+        //     document.getElementById('glucoseValue').textContent = `${healthData.glucose} mg/dL`;
 
-            // Calculate and display BMI
-            const heightInMeters = healthData.height / 100;
-            const bmi = (healthData.weight / (heightInMeters * heightInMeters)).toFixed(1);
-            document.getElementById('bmiValue').textContent = bmi;
+        //     // Calculate and display BMI
+        //     const heightInMeters = healthData.height / 100;
+        //     const bmi = (healthData.weight / (heightInMeters * heightInMeters)).toFixed(1);
+        //     document.getElementById('bmiValue').textContent = bmi;
 
-            // Generate detailed recommendations
-            const recommendationsList = document.getElementById('recommendationsList');
-            const recommendations = [];
+        //     // Generate detailed recommendations
+        //     const recommendationsList = document.getElementById('recommendationsList');
+        //     const recommendations = [];
 
-            if (healthData.systolic > 140 || healthData.diastolic > 90) {
-                recommendations.push({
-                    text: 'Schedule regular blood pressure monitoring and consult with your healthcare provider',
-                    priority: 'high'
-                });
-            }
-            if (healthData.cholesterol > 200) {
-                recommendations.push({
-                    text: 'Consider dietary changes to reduce cholesterol levels: limit saturated fats, increase fiber intake',
-                    priority: 'medium'
-                });
-            }
-            if (healthData.glucose > 100) {
-                recommendations.push({
-                    text: 'Monitor blood glucose levels regularly and maintain a balanced diet with controlled carbohydrate intake',
-                    priority: 'medium'
-                });
-            }
-            if (healthData.activity === 'inactive') {
-                recommendations.push({
-                    text: 'Gradually increase physical activity to at least 150 minutes of moderate exercise per week',
-                    priority: 'high'
-                });
-            }
+        //     if (healthData.systolic > 140 || healthData.diastolic > 90) {
+        //         recommendations.push({
+        //             text: 'Schedule regular blood pressure monitoring and consult with your healthcare provider',
+        //             priority: 'high'
+        //         });
+        //     }
+        //     if (healthData.cholesterol > 200) {
+        //         recommendations.push({
+        //             text: 'Consider dietary changes to reduce cholesterol levels: limit saturated fats, increase fiber intake',
+        //             priority: 'medium'
+        //         });
+        //     }
+        //     if (healthData.glucose > 100) {
+        //         recommendations.push({
+        //             text: 'Monitor blood glucose levels regularly and maintain a balanced diet with controlled carbohydrate intake',
+        //             priority: 'medium'
+        //         });
+        //     }
+        //     if (healthData.activity === 'inactive') {
+        //         recommendations.push({
+        //             text: 'Gradually increase physical activity to at least 150 minutes of moderate exercise per week',
+        //             priority: 'high'
+        //         });
+        //     }
 
-            recommendations.forEach(rec => {
-                const div = document.createElement('div');
-                div.className = 'recommendation-item';
-                div.textContent = rec.text;
-                if (rec.priority === 'high') {
-                    div.style.borderLeftColor = 'var(--danger-color)';
-                } else if (rec.priority === 'medium') {
-                    div.style.borderLeftColor = 'var(--warning-color)';
-                }
-                recommendationsList.appendChild(div);
-            });
+        //     recommendations.forEach(rec => {
+        //         const div = document.createElement('div');
+        //         div.className = 'recommendation-item';
+        //         div.textContent = rec.text;
+        //         if (rec.priority === 'high') {
+        //             div.style.borderLeftColor = 'var(--danger-color)';
+        //         } else if (rec.priority === 'medium') {
+        //             div.style.borderLeftColor = 'var(--warning-color)';
+        //         }
+        //         recommendationsList.appendChild(div);
+        //     });
 
-            // Update lifestyle scores
-            const activityScore = healthData.activity === 'active' ? 80 : 30;
-            const dietScore = healthData.cholesterol < 200 ? 75 : 40;
-            const healthScore = Math.round((100 - totalRisk) * 0.8);
+        //     // Update lifestyle scores
+        //     const activityScore = healthData.activity === 'active' ? 80 : 30;
+        //     const dietScore = healthData.cholesterol < 200 ? 75 : 40;
+        //     const healthScore = Math.round((100 - totalRisk) * 0.8);
 
-            document.getElementById('activityBar').style.width = `${activityScore}%`;
-            document.getElementById('dietBar').style.width = `${dietScore}%`;
-            document.getElementById('healthBar').style.width = `${healthScore}%`;
+        //     document.getElementById('activityBar').style.width = `${activityScore}%`;
+        //     document.getElementById('dietBar').style.width = `${dietScore}%`;
+        //     document.getElementById('healthBar').style.width = `${healthScore}%`;
 
-            document.getElementById('activityScore').textContent = `${activityScore}%`;
-            document.getElementById('dietScore').textContent = `${dietScore}%`;
-            document.getElementById('healthScore').textContent = `${healthScore}%`;
-        }); {% endcomment %}
+        //     document.getElementById('activityScore').textContent = `${activityScore}%`;
+        //     document.getElementById('dietScore').textContent = `${dietScore}%`;
+        //     document.getElementById('healthScore').textContent = `${healthScore}%`;
+        // }); {% endcomment %}
     </script>
 </body>
 </html>

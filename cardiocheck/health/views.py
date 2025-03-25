@@ -59,7 +59,7 @@ def health_form(request):
 
             # Get the probability prediction
             prediction = model.predict(np.array(new_user_scaled))[0][0]
-            probability_percent = f"{prediction * 100:.2f}%"
+            probability_percent = int(prediction * 100)
 
             return redirect(f"/dashboard?name={name}&age={age}&gender={gender}&height={height}&weight={weight}&systolic={systolic}&diastolic={diastolic}&cholesterol={cholesterol}&glucose={glucose}&probability={probability_percent}")
 
@@ -72,6 +72,10 @@ def health_form(request):
 
 
 def dashboard(request):
+    try:
+        probability = int(request.GET.get("probability", 0))
+    except ValueError:
+        probability = 0
     context = {
         "name": request.GET.get("name", "N/A"),
         "age": request.GET.get("age", "N/A"),
@@ -82,6 +86,6 @@ def dashboard(request):
         "diastolic": request.GET.get("diastolic", "N/A"),
         "cholesterol": request.GET.get("cholesterol", "N/A"),
         "glucose": request.GET.get("glucose", "N/A"),
-        "probability": request.GET.get("probability", "N/A")
+        "probability": probability
     }
     return render(request, "dashboard.html", context)
