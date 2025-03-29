@@ -799,7 +799,7 @@ input[type="number"]:focus {
             glucose = true
         }
         document.getElementById('bpValue').textContent = `${healthData.systolic}/${healthData.diastolic}`;
-        document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol * 100} mg/dL`;
+        document.getElementById('cholesterolValue').textContent = `${healthData.cholesterol * 70} mg/dL`;
         document.getElementById('glucoseValue').textContent = `${glucose}` ;
         
         const heightInMeters = healthData.height / 100;
