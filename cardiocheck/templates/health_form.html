@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +10,15 @@
 <style>
     /* Global Styles */
 :root {
-    --primary-color: #64B5F6;
-    --secondary-color: #4FC3F7;
-    --success-color: #81C784;
+    --primary-color: #5fa738;
+    --secondary-color: #5fa738;
+    --success-color: #5fa738;
     --warning-color: #FFB74D;
     --danger-color: #E57373;
-    --bg-dark: #1a1a1a;
-    --bg-card: #2d2d2d;
+    --bg-dark: white;
+    --bg-card:  #b0b0b0;
     --text-primary: #e0e0e0;
-    --text-secondary: #b0b0b0;
+    --text-secondary: black;
     --border-color: #404040;
 }
 
@@ -36,9 +37,10 @@ body {
 
 /* Navbar Styles */
 .navbar {
-    background-color: var(--bg-card);
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.349);
+    padding: 10px;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -66,11 +68,11 @@ body {
 }
 
 .form-container {
-    background-color: var(--bg-card);
+    background-color: #f5f5f5;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border-color);
+    {% comment %} box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); {% endcomment %}
+    {% comment %} border: 1px solid var(--border-color); {% endcomment %}
 }
 
 h1, h2 {
@@ -102,10 +104,10 @@ input[type="number"] {
     width: 100%;
     padding: 0.75rem;
     background-color: var(--bg-dark);
-    border: 1px solid var(--border-color);
+    border: 1px solid #c8c8c8;
     border-radius: 8px;
     font-size: 1rem;
-    color: var(--text-primary);
+    color: rgb(94, 92, 92);
     transition: all 0.3s ease;
 }
 
@@ -126,6 +128,7 @@ input[type="number"]:focus {
     margin-left: 0.5rem;
     margin-bottom: 0;
     cursor: pointer;
+    color : black;
 }
 
 .submit-btn {
@@ -140,10 +143,10 @@ input[type="number"]:focus {
     transition: all 0.3s ease;
 }
 
-.submit-btn:hover {
+/* .submit-btn:hover {
     background-color: #5c9ce0;
     transform: translateY(-1px);
-}
+} */
 
 /* Dashboard Styles */
 .dashboard-container {
@@ -420,11 +423,15 @@ input[type="number"]:focus {
         gap: 1rem;
     }
 }
+.navbar-content img{
+    width: 80px;
+    height: 80px;
+}
 </style>
 <body>
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="logo">Cardiolytix</div>
+            <img src="{% static "logonew.png" %}" alt=""> 
         </div>
     </nav>
 
